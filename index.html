@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+    }
+    main {
+      height: 100vh;
+      transition: background 1s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2em;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-weight: 400;
+      color: #fff;
+      transition: color 1s;
+      line-height: 2;
+    }
+    footer {
+      text-align: center;
+      padding: 0.5rem 0;
+      background-color: #eaeaea90;
+    }
+    footer p {
+      font-size: 0.75rem;
+      margin: 0.25rem 0;
+      color: #221133;
+    }
+    footer a {
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <main id="background">
+    <h1 id="header">
+      Generate Random Dark Colors with JavaScript
+    </h1>
+  </main>
+  <script>
+    const background = document.getElementById("background");
+    const h1 = document.getElementById("header");
+
+    const getRandomNumber = (min, max) => {
+      return Math.floor(Math.random() * (max - min +1)) + min;
+    };
+
+    const hslToHex = (h, s, l) => {
+      l /= 100;
+      const a = s * Math.min(l, 1 - l) / 100;
+      const f = n => {
+        const k = (n + h / 30) % 12;
+        const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+        return Math.round(255 * color).toString(16).padStart(2, '0');
+      };
+      return `#${f(0)}${f(8)}${f(4)}`;
+    };
+
+    const setBackgroundColor = () => {
+      const h = getRandomNumber(0, 360);
+      const s = getRandomNumber(30, 80);
+      const randomColor = `hsl(${h}deg, ${s}%, 50%)`;
+
+      background.style.backgroundColor = randomColor;
+      background.style.color = randomColor;
+      h1.innerHTML = hslToHex(h, s, 50) + "<br />" + randomColor;
+    };
+
+    setBackgroundColor();
+
+    setInterval(() => {
+      setBackgroundColor();
+    }, 3000);
+  </script>
+</body>
+</html>
